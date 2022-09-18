@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width">
+        <title>Repetition in Chinese Book of Poetry|Visualization</title>
+        <link href="css/style-english.css" rel="stylesheet" type="text/css" />
+        <script src="js/d3.js" type="text/javascript"></script>
+        <script src="js/d3.min.js" type="text/javascript"></script>
+        <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+        <script language="javascript" type="text/javascript" src="libraries/p5.sound.min.js"></script>
+        <script language="javascript" type="text/javascript" src="js/sound03.js"></script>
+    </head>
+<body>
+    <script src="js/sketch-english.js" type="text/javascript"></script>
+
+    <div id="board">
+        <div id="right">
+
+        <div id="over">
+            <!--<div id="">返回引导页</div>-->
+            <button id="back" onclick="window.location.href = 'index-english.html'">Guide pages</button>
+            <button id="english" onclick="window.location.href = 'display.html'"><text>中文</text></button>
+        </div>
+
+        
+        <div id="instruction"></div>
+        </div>
+
+        <div id="explain">
+            请在电脑端访问。
+        </div>
+        
+        
+        
+        <div id="titles">
+            <div id="feng-titles">
+                    <svg id="feng-titles-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="100%" width="100%" >
+                    </svg>
+                    <div class="feng-ya-song" style="position: absolute;right:220px;"><text>FENG </text><text style="font-size: 12px;font-weight: normal;"> (A total of 160 songs, of which 153 have repetition.)</text></div>
+            </div>
+            <div id="ya-titles">
+                
+                    <svg id="ya-titles-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="100%" width="100%" >
+                    </svg>
+                    <div class="feng-ya-song" style="position: absolute;right:420px;"><text>YA </text><text style="font-size: 12px;font-weight: normal;"> (A total of 111 songs, of which 93 have repetition.)</text></div>
+            </div>
+            <div id="song-titles">
+                
+                    <svg id="song-titles-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="100%" width="100%" >
+                    </svg>
+                    <div class="feng-ya-song"><text>SONG </text><text style="font-size: 12px;font-weight: normal;"> (A total of 40 songs, of which 6 have repetition.)</text></div>
+            </div>
+            <div id="titles-title">TEXT VISUAL ANALYSIS</div>
+            <div id="sort">
+            <div id="paixu-title">SORT</div>
+            <div id="paixu-button">
+                <button id="mulu">Catalogue</button>
+                <button id="futa">Repeated words</button>
+                <button id="genghuanzi">Changed words</button>
+            </div>
+        </div>
+        <div id="shaixuan">
+            <div id="shaixuan-title">SELECT</div>
+            <div id="shaixuan-button">
+                
+                <button id="chongzhangfuta" class="shaixuan-text">100%～80%</button>
+                <button id="quanbu" class="shaixuan-text">All</button>
+                
+                <button id="dulijiafutazhang" class="shaixuan-text">60%～40%</button>
+                <button id="daliangfuta" class="shaixuan-text">80%～60%</button>
+                
+                <button id="jihubufuta" class="shaixuan-text">20%～0%</button>
+                <button id="bufenjuzifuta" class="shaixuan-text">40%～20%</button>
+            </div>
+        </div>
+
+        </div>
+
+        
+    </div>
+
+
+    <div id="songs"> 
+        <div id="operation">
+            <div id="operation-title">MUSICAL VISUALIZATION</div>
+            <!--<button id="shengyin">声音</button>-->
+            <button id="yincangwenzi" class="water-button">Show All</button>
+            <button id="quanbuxianshi" class="water-button">Show Landscape</button>
+            <button id="xianshiwenzi" class="water-button">Show Text</button>
+            <!--<button id="yinyuekeshihua" class="water-button">音乐可视化</button>-->
+            <!--<button id="shanxing">山形</button>-->
+            <!--<button id="genghuanzi">显示译文</button>-->
+        </div>
+    <div id="canvas-div" style="width: 110%; height: 50px; position: fixed;bottom:0;margin-bottom: 0px;left: -5%;"><!--诗经声音可视化-->
+        <!--<div id="canvas-title" style="width: 30px;height: 190px;float: right;right: 0;-webkit-writing-mode: vertical-rl;writing-mode: vertical-rl;letter-spacing: 2px;font-size: 2.4rem;color: #444e55;font-weight: bold;">音乐可视化展示</div>
+        <button id="bofang" style="width: 24px;height: 100px;float: right;right: 4px;-webkit-writing-mode: vertical-rl;writing-mode: vertical-rl;letter-spacing: 0px;font-size: 1.2rem;font-weight: bold;font-family: 黑体;color: rgb(194, 86, 51);margin-top: 0px;margin-right: 12px;padding: 2px;border-width: 1px;border-style: solid;border-color: rgb(194, 86, 51);border-image: initial;">播放</button>-->
+        </div>    
+    <svg id="preguanju" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" >
+        <defs>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="change4">
+                                <stop offset="0%" stop-color="#d0e3e2"/>
+                                <stop offset="25%" stop-color="#d0e3e2"/>
+                                <stop offset="65" stop-color="#ffffff"/>
+                                <stop offset="100%" stop-color="#ffffff"/>
+                            </linearGradient>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="change5">
+                                <stop offset="0%" stop-color="#30bcbe"/>
+                                <stop offset="100%" stop-color="#ffffff"/>
+                            </linearGradient>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="change6">
+                                <stop offset="0%" stop-color="#00ffff"/>
+                                <stop offset="100%" stop-color="#ffffff"/>
+                            </linearGradient>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="qing">
+                                <stop offset="0%" stop-color="#1aa2e1"/>
+                                <stop offset="25%" stop-color="#2f90d6"/>
+                                <stop offset="75" stop-color="#bea757"/>
+                                <stop offset="100%" stop-color="#bea757"/>
+                            </linearGradient>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="lv">
+                                <stop offset="0%" stop-color="#1cdeb2"/>
+                                <stop offset="25%" stop-color="#35c5b2"/>
+                                <stop offset="75" stop-color="#bea757"/>
+                                <stop offset="100%" stop-color="#bea757"/>
+                            </linearGradient>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="jin">
+                                <stop offset="0%" stop-color="#ffcf4d"/>
+                                <stop offset="25%" stop-color="#fbb346"/>
+                                <stop offset="75" stop-color="#bea757"/>
+                                <stop offset="100%" stop-color="#bea757"/>
+                            </linearGradient>
+                            <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="lang">
+                                <stop offset="0%" stop-color="#444e55"/>
+                                <stop offset="90%" stop-color="#9ba777"/>
+                                <stop offset="100%" stop-color="#9ba777"/>
+                            </linearGradient>
+
+                        </defs>
+    </svg>                    
+    <svg id="guanju" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="getan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="juaner" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiumu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhongsi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="taoyao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="tuju" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="fuyi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="hanguang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="rufen" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="linzhizhi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="biaoyoumei" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="caifan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="caipin" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="caochong" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gantang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gaoyang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="hebinongyi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiangyousi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="quechao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="xiaoxing" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="xinglu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yeyousijun" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yingqilei" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zouyu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+
+
+    <svg id="caige" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="daju" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gelei" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="junziyangyang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="junziyuyi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="qiuzhongyouma" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shuli" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="tuyuan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yangzhishui" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhongguyoutui" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="chuqidongmen" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dashuyutian" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongmenzhishan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="feng" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="fengyu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gaoqiu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiangzhongzi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiaotong" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="nvyuejiming" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="qianshang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="qingren" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shanyoufusu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shuyutian" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="touxi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yangzhishui2" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yeyoumancao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="younvtongche" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhenwei" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zijin" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="ziyi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zundalu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="bigou" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongfangweiming" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongfangzhiri" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="futian" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="huan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiming" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="luling" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="nanshan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yijie" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zaiqu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="fatan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="fenjuru" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="geju" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shimuzhijian" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shuoshu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yuanyoutao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhihu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="baoyu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="cailing" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="choumou" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="didu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gaoqiu2" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gesheng" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiaoliao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shanyoushu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="wuyi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="xishuai" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yangzhishui3" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="youdizhidu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="chelin" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="chenfeng" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="huangniao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jianjia" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="quanyu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="sitie" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="weiyang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="wuyi2" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="xiaorong" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhongnan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongmenzhichi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongmenzhifeng" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongmenzhiyang" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="fangyouquechao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="hengmen" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="mumen" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="wanqiu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yuechu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zebei" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="zhulin" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="feifeng" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="gaoqiu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="suguan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="xiyouchangchu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="chuqidongmen2" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="houren" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="shijiu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="xiaquan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="chixiao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="dongshan" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="fake" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="jiuyu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="langba" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="pofu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="qiyue" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+
+
+    <svg id="caiwei" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="changdi" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="chuche" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="didu2" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="famu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="huanghuangzhehua" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="luming" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="nanyoujiayu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="simu" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="tianbao" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+    <svg id="yuli" class="chart" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="500px" ></svg>
+
+    <!--<svg id="vein" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="1000px" >
+    </svg>-->
+
+    <svg id="svg-area" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px" >
+      <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+      <!--<path fill="rgba(33, 150, 243, 0.6)"></path>-->
+    </svg>
+    <svg id="svg-area2" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area3" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area4" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area5" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area6" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area7" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area8" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area9" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area10" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+    
+    </svg>
+    <svg id="svg-area11" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+    </svg>
+    <svg id="svg-area12" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+    </svg>
+    <svg id="svg-area13" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area14" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+    </svg>
+    <svg id="svg-area15" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area16" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area17" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area18" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area19" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+       <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area20" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area21" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>v
+    </svg>
+    <svg id="svg-area22" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area23" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area24" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area25" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>v
+       
+    </svg>
+    <svg id="svg-area26" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>v
+       
+    </svg>
+    <svg id="svg-area27" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area28" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area29" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area30" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area31" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area32" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area33" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area34" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area35" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+       <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area36" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+       <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area37" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+       <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area38" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+       <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area39" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.2" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+        
+    </svg>
+    <svg id="svg-area40" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area41" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.1" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <svg id="svg-area42" class="wave" xmlns="http://www.w3.org/2000/svg" version="1.1" height="20px" width="1000px">
+        <path fill="url(#lang)" fill-opacity="0.15" stroke="#444e55" stroke-opacity="0" stroke-width="1" ></path>
+       
+    </svg>
+    <script>
+      //波浪动画
+      var svg_height = 22,
+        svg_width = 1000,
+        wave_data = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+        area = d3.area().y0(svg_height).curve(d3.curveBasis),   //curve会进行平滑处理
+        svg_paths = [];
+      var max = 400;  //控制速度
+      for (var i=0; i<max; i++) {
+        var r = i / max * 80;
+        wave_data[0].push(r);           //波浪一s
+        wave_data[1].push(r+1);   //波浪二（+1代表偏移π）
+        wave_data[2].push(r);
+        wave_data[3].push(r+1);
+        wave_data[4].push(r);
+        wave_data[5].push(r+1);
+        wave_data[6].push(r);
+        wave_data[7].push(r+1);
+        wave_data[8].push(r);
+        wave_data[9].push(r+1);
+        wave_data[10].push(r);
+        wave_data[11].push(r+1);
+        wave_data[12].push(r);
+        wave_data[13].push(r+1);
+        wave_data[14].push(r);
+        wave_data[15].push(r+1);
+        wave_data[16].push(r);
+        wave_data[17].push(r+1);
+        wave_data[18].push(r);
+        wave_data[19].push(r+1);
+        wave_data[20].push(r);
+        wave_data[21].push(r+1);
+        wave_data[22].push(r);
+        wave_data[23].push(r+1);
+        wave_data[24].push(r);
+        wave_data[25].push(r+1);
+        wave_data[26].push(r);
+        wave_data[27].push(r+1);
+        wave_data[28].push(r);
+        wave_data[29].push(r+1);
+        wave_data[30].push(r);
+        wave_data[31].push(r+1);
+        wave_data[32].push(r);
+        wave_data[33].push(r+1);
+        wave_data[34].push(r);
+        wave_data[35].push(r+1);
+        wave_data[36].push(r);
+        wave_data[37].push(r+1);
+        wave_data[38].push(r);
+        wave_data[39].push(r+1);
+        wave_data[40].push(r);
+        wave_data[41].push(r+1);
+
+      }
+      var d = svg_width/(wave_data[0].length-1);
+      svg_paths.push(d3.select('#svg-area path:first-child'));
+      svg_paths.push(d3.select('#svg-area2 path:first-child'));
+      svg_paths.push(d3.select('#svg-area3 path:first-child'));
+      svg_paths.push(d3.select('#svg-area4 path:first-child'));
+      svg_paths.push(d3.select('#svg-area5 path:first-child'));
+      svg_paths.push(d3.select('#svg-area6 path:first-child'));
+      svg_paths.push(d3.select('#svg-area7 path:first-child'));
+      svg_paths.push(d3.select('#svg-area8 path:first-child'));
+      svg_paths.push(d3.select('#svg-area9 path:first-child'));
+      svg_paths.push(d3.select('#svg-area10 path:first-child'));
+      svg_paths.push(d3.select('#svg-area11 path:first-child'));
+      svg_paths.push(d3.select('#svg-area12 path:first-child'));
+      svg_paths.push(d3.select('#svg-area13 path:first-child'));
+      svg_paths.push(d3.select('#svg-area14 path:first-child'));
+      svg_paths.push(d3.select('#svg-area15 path:first-child'));
+      svg_paths.push(d3.select('#svg-area16 path:first-child'));
+      svg_paths.push(d3.select('#svg-area17 path:first-child'));
+      svg_paths.push(d3.select('#svg-area18 path:first-child'));
+      svg_paths.push(d3.select('#svg-area19 path:first-child'));
+      svg_paths.push(d3.select('#svg-area20 path:first-child'));
+      svg_paths.push(d3.select('#svg-area21 path:first-child'));
+      svg_paths.push(d3.select('#svg-area22 path:first-child'));
+      svg_paths.push(d3.select('#svg-area23 path:first-child'));
+      svg_paths.push(d3.select('#svg-area24 path:first-child'));
+      svg_paths.push(d3.select('#svg-area25 path:first-child'));
+      svg_paths.push(d3.select('#svg-area26 path:first-child'));
+      svg_paths.push(d3.select('#svg-area27 path:first-child'));
+      svg_paths.push(d3.select('#svg-area28 path:first-child'));
+      svg_paths.push(d3.select('#svg-area29 path:first-child'));
+      svg_paths.push(d3.select('#svg-area30 path:first-child'));
+      svg_paths.push(d3.select('#svg-area31 path:first-child'));
+      svg_paths.push(d3.select('#svg-area32 path:first-child'));
+      svg_paths.push(d3.select('#svg-area33 path:first-child'));
+      svg_paths.push(d3.select('#svg-area34 path:first-child'));
+      svg_paths.push(d3.select('#svg-area35 path:first-child'));
+      svg_paths.push(d3.select('#svg-area36 path:first-child'));
+      svg_paths.push(d3.select('#svg-area37 path:first-child'));
+      svg_paths.push(d3.select('#svg-area38 path:first-child'));
+      svg_paths.push(d3.select('#svg-area39 path:first-child'));
+      svg_paths.push(d3.select('#svg-area40 path:first-child'));
+      svg_paths.push(d3.select('#svg-area41 path:first-child'));
+      svg_paths.push(d3.select('#svg-area42 path:first-child'));
+
+      function area_generator(data) {
+        var wave_height = 0.3;     //波浪高度
+        var area_data = data.map( function(y,i) {
+          return [i * d, svg_height*(1 - (wave_height*Math.sin(y*Math.PI) + 2)/3)]; //+2将范围[-1,1]转成[1,3]
+        } );
+        return function() {
+          return area(area_data);
+        };
+      }
+      function renderWave() {
+        svg_paths.forEach(function(svg_path,i){
+          svg_path.attr('d', area_generator(wave_data[i]));
+          wave_data[i] = getNextData(wave_data[i]);
+        });
+        requestAnimationFrame(renderWave);
+      }
+      function getNextData(data) {
+        var r = data.slice(1);
+        r.push(data[0]);
+        return r;
+      }
+      requestAnimationFrame(renderWave);
+    
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+    
+    
+
+    
+    
+
+
+    <!--<script type="text/javascript">
+        //波浪动画
+      var svg_height = 50,
+        svg_width = 1000,
+        wave_data = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+        area = d3.area().y0(svg_height).curve(d3.curveBasis),   //curve会进行平滑处理
+        svg_paths = [];
+      var max = 500;  //控制速度
+      for (var i=0; i<max; i++) {
+        var r = i / max * 64;
+        wave_data[0].push(r);           //波浪一s
+        wave_data[1].push(r+1);   //波浪二（+1代表偏移π）
+        wave_data[2].push(r);
+        wave_data[3].push(r+1);
+        wave_data[4].push(r);
+        wave_data[5].push(r+1);
+        wave_data[6].push(r);
+        wave_data[7].push(r+1);
+        wave_data[8].push(r);
+        wave_data[9].push(r+1);
+        wave_data[10].push(r);
+        wave_data[11].push(r+1);
+        wave_data[12].push(r);
+        wave_data[13].push(r+1);
+        wave_data[14].push(r);
+        wave_data[15].push(r+1);
+        wave_data[16].push(r);
+        wave_data[17].push(r+1);
+        wave_data[18].push(r);
+        wave_data[19].push(r+1);
+        wave_data[20].push(r);
+        wave_data[21].push(r+1);
+        wave_data[22].push(r);
+        wave_data[23].push(r+1);
+        wave_data[24].push(r);
+        wave_data[25].push(r+1);
+        wave_data[26].push(r);
+        wave_data[27].push(r+1);
+        wave_data[28].push(r);
+        wave_data[29].push(r+1);
+        wave_data[30].push(r);
+        wave_data[31].push(r+1);
+        wave_data[32].push(r);
+        wave_data[33].push(r+1);
+        wave_data[34].push(r);
+        wave_data[35].push(r+1);
+        wave_data[36].push(r);
+        wave_data[37].push(r+1);
+        wave_data[38].push(r);
+        wave_data[39].push(r+1);
+      }
+      var d = svg_width/(wave_data[0].length-4);
+      svg_paths.push(d3.select('#svg-area path:first-child'));
+      svg_paths.push(d3.select('#svg-area2 path:first-child'));
+      svg_paths.push(d3.select('#svg-area3 path:first-child'));
+      svg_paths.push(d3.select('#svg-area4 path:first-child'));
+      svg_paths.push(d3.select('#svg-area5 path:first-child'));
+      svg_paths.push(d3.select('#svg-area6 path:first-child'));
+      svg_paths.push(d3.select('#svg-area7 path:first-child'));
+      svg_paths.push(d3.select('#svg-area8 path:first-child'));
+      svg_paths.push(d3.select('#svg-area9 path:first-child'));
+      svg_paths.push(d3.select('#svg-area10 path:first-child'));
+      svg_paths.push(d3.select('#svg-area11 path:first-child'));
+      svg_paths.push(d3.select('#svg-area12 path:first-child'));
+      svg_paths.push(d3.select('#svg-area13 path:first-child'));
+      svg_paths.push(d3.select('#svg-area14 path:first-child'));
+      svg_paths.push(d3.select('#svg-area15 path:first-child'));
+      svg_paths.push(d3.select('#svg-area16 path:first-child'));
+      svg_paths.push(d3.select('#svg-area17 path:first-child'));
+      svg_paths.push(d3.select('#svg-area18 path:first-child'));
+      svg_paths.push(d3.select('#svg-area19 path:first-child'));
+      svg_paths.push(d3.select('#svg-area20 path:first-child'));
+      svg_paths.push(d3.select('#svg-area21 path:first-child'));
+      svg_paths.push(d3.select('#svg-area22 path:first-child'));
+      svg_paths.push(d3.select('#svg-area23 path:first-child'));
+      svg_paths.push(d3.select('#svg-area24 path:first-child'));
+      svg_paths.push(d3.select('#svg-area25 path:first-child'));
+      svg_paths.push(d3.select('#svg-area26 path:first-child'));
+      svg_paths.push(d3.select('#svg-area27 path:first-child'));
+      svg_paths.push(d3.select('#svg-area28 path:first-child'));
+      svg_paths.push(d3.select('#svg-area29 path:first-child'));
+      svg_paths.push(d3.select('#svg-area30 path:first-child'));
+      svg_paths.push(d3.select('#svg-area31 path:first-child'));
+      svg_paths.push(d3.select('#svg-area32 path:first-child'));
+      svg_paths.push(d3.select('#svg-area33 path:first-child'));
+      svg_paths.push(d3.select('#svg-area34 path:first-child'));
+      svg_paths.push(d3.select('#svg-area35 path:first-child'));
+      svg_paths.push(d3.select('#svg-area36 path:first-child'));
+      svg_paths.push(d3.select('#svg-area37 path:first-child'));
+      svg_paths.push(d3.select('#svg-area38 path:first-child'));
+      svg_paths.push(d3.select('#svg-area39 path:first-child'));
+      svg_paths.push(d3.select('#svg-area40 path:first-child'));
+
+      function area_generator(data) {
+        var wave_height = 1.2;     //波浪高度
+        var area_data = data.map( function(y,i) {
+          return [i * d, svg_height*(1 - (wave_height*Math.sin(y*Math.PI)/8 + 2)/3)]; //+2将范围[-1,1]转成[1,3]
+        } );
+        return function() {
+          return area(area_data);
+        };
+      }
+      function renderWave() {
+        svg_paths.forEach(function(svg_path,i){
+          svg_path.attr('d', area_generator(wave_data[i]));
+          wave_data[i] = getNextData(wave_data[i]);
+        });
+        requestAnimationFrame(renderWave);
+      }
+      function getNextData(data) {
+        var r = data.slice(1);
+        r.push(data[0]);
+        return r;
+      }
+      requestAnimationFrame(renderWave);
+
+    </script>-->
+
+    <!--<svg id="bgcolor" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1000px" width="1000px" >
+         <rect x="100" y="100" width="400" height="300" fill="#fff5e0"></rect>
+    </svg>-->
+
+    </div>
+</body>
+
+</html>
+
