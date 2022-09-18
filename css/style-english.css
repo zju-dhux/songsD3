@@ -1,0 +1,689 @@
+:root{
+      font-size:10px;
+     }
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; 
+
+}
+canvas {
+  display: block;
+}
+
+text{
+
+}
+
+img {
+	width: auto;
+	height: 100%;
+}
+
+a{text-decoration:none;}
+a:link {color: #444e55}
+a:visited {color: #444e55}
+a:hover {color: #FF0000;opacity: 0.5;}
+a:active {color: #ff0000;opacity: 0.5;}
+
+button {
+  outline: none;
+  border: none;
+  z-index: 1;
+  position: relative;
+  background: #bea757;
+  padding: 0.5em 1em;
+  
+}
+
+button.water-button{
+  outline: none;
+  border: none;
+  z-index: 1;
+  position: relative;
+  background: #9ba777;
+  padding: 0.5em 1em;
+  
+}
+
+button::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fa541c;
+  opacity: 0.5;
+  transform-origin: center bottom;
+  transform: scaleY(0);
+  transition: transform 0.4s ease-in-out;
+
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:hover::before {
+  transform-origin: center top;
+  transform: scaleY(1);
+}
+
+
+
+#board{
+	width:50%;
+	height: 100%;
+	background-color:#d4be84;
+    position: fixed;
+    float: left;
+    right:0;
+    z-index: 0;
+    /*filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=120,strength=4);
+    -moz-box-shadow: 2px 2px 10px #909090;
+    -webkit-box-shadow: 2px 2px 10px #909090;
+    box-shadow:2px 2px 10px #909090;*/
+
+}
+#right{
+	width: 10%;
+	height: 100%;
+	position: absolute;
+	top:2%;
+	right: 0px;
+	float: right;
+}
+
+
+#over{
+	width: 30px;
+	height: 30%;
+	position:absolute;
+	float: right;
+	padding: 15px;
+	right: : 15px;
+}
+
+#back{
+	width: 100px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+	margin-top: 0px;
+	border: 1px solid #444e55;
+
+}
+
+#english{
+	width: 100px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+	margin-top: 12px;
+	border: 1px solid #444e55;
+
+}
+
+#instruction{
+	width: 100%;
+	height: 60%;
+    position: absolute;
+	right: 30px;
+	top: 33%;
+    float: right;
+
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-family: "黑体";
+	color: #444e55;
+}
+
+#explain{
+	width: 30px;
+	height: 200px;
+	position: absolute;
+	float: right;
+	top:50%;
+	right: 50%;
+	margin-left: 0px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.8rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+	display: none;
+}
+
+
+#sort{
+	width: 180px;
+	height: auto;
+
+	float: right;
+
+
+	padding: 15px;
+
+
+}
+
+#paixu-title{
+	width: 30px;
+	height: 20px;
+	float: left;
+	margin-left: 0px;
+
+	font-size: 1.8rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+
+}
+
+#paixu-button{
+	width: 140px;
+	height: 110px;
+	float: right;
+	/*border: 1px solid #ff0000;*/
+}
+
+#mulu{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #c25633;
+    margin-top: 2px;
+	border: 1px solid #c25633;
+}
+#futa{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-top: 2px;
+	border: 1px solid #444e55;
+}
+#genghuanzi{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-top: 2px;
+
+	border: 1px solid #444e55;
+}
+
+#shaixuan{
+	width: 330px;
+	height: auto;
+	float: right;
+	padding: 15px;
+
+}
+
+#shaixuan-title{
+	width: 10px;
+	height: 30px;
+	float: left;
+   
+	font-size: 1.8rem;
+	margin-left: 20px;
+	font-family: "黑体";
+	color: #444e55;;
+	font-weight: bold;
+}
+
+#shaixuan-button{
+	width: 300px;
+	height: 110px;
+	float: right;
+	/*border: 1px solid #ff0000;*/
+}
+
+#quanbu{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #c25633;
+    margin-left: 2px;
+    
+	border: 1px solid #c25633;
+
+
+}
+
+#chongzhangfuta{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-left: 2px;
+	border: 1px solid #444e55;
+
+}
+
+#daliangfuta{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-left: 2px;
+    margin-top: 2px;
+	border: 1px solid #444e55;
+
+}
+
+#dulijiafutazhang{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-left: 2px;
+    margin-top: 2px;
+	border: 1px solid #444e55;
+
+}
+
+#bufenjuzifuta{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-left: 2px;
+    margin-top: 2px;
+	border: 1px solid #444e55;
+
+}
+
+#jihubufuta{
+	width: 110px;
+	height: 24px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+    margin-left: 2px;
+    margin-top: 2px;
+	border: 1px solid #444e55;
+
+}
+
+
+/*.shaixuan-text{
+	width: 20px;
+	height: 60px;
+	float: right;
+
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	
+	font-family: "黑体";
+	color: #444e55;
+}*/
+
+
+
+#titles{
+	width: 600px;
+	height: 90%;
+	position:absolute;
+	float: left;
+	left: 0;
+	top: 2%;
+	padding: 15px;
+
+
+}
+
+#titles-title{
+	width: 200px;
+	height: 45px;
+	position: absolute;
+	float: left;
+    top: 1%;
+
+
+	font-size: 2.4rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+}
+
+.feng-ya-song{
+    -webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.8rem;
+	font-weight: bold;
+
+}
+
+#feng-titles{
+	width: 250px;
+	height: 520px;
+
+	
+	float: right;
+
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:-4px;
+	font-size: 12px;
+	
+	font-family: "黑体";
+	color: #444e55;
+
+}
+#ya-titles{
+	width: 200px;
+	height: 520px;
+
+	float: right;
+
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:-4px;
+	font-size: 12px;
+	
+	font-family: "黑体";
+	color: #444e55;
+
+}
+#song-titles{
+	width: 52px;
+	height: 520px;
+
+	float: right;
+
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:-4px;
+	font-size: 12px;
+	
+	font-family: "黑体";
+	color: #444e55;
+
+}
+
+#operation{
+	width: 180px;
+	height: auto;
+	position:fixed;
+	float: left;
+	top: 1%;
+	padding: 15px;
+	right: : 60%;
+	z-index: 100;
+}
+
+#operation-title{
+	width: 100%;
+	height: 70px;
+	float: left;
+	right: 0;
+	font-size: 2.4rem;
+	
+	font-family: "黑体";
+	color: #444e55;
+	font-weight: bold;
+}
+
+#xianshiwenzi{
+	width: 100px;
+	height: 24px;
+	float: left;
+	right: 4px;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #c25633;
+	margin-top: 12px;
+	border: 1px solid #c25633;
+
+}
+
+#yincangwenzi{
+	width: 100px;
+	height: 24px;
+	float: left;
+	right: 4px;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+	margin-top: 12px;
+	border: 1px solid #444e55;
+
+}
+
+#shanxing{
+	width: 24px;
+	height: 50px;
+	float: right;
+    padding: 2px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.2rem;
+	
+	font-family: "黑体";
+	color: #444e55;
+	margin-top: 12px;
+	border: 1px solid #444e55;
+
+}
+
+
+
+#songs{
+	
+	width: auto;
+	height: auto;
+    
+	float: right;
+	right: 62%;
+    background-color:#9ba777;
+
+}
+
+
+.chart{
+    position: absolute;
+	top: 0;
+
+
+
+}
+
+#vein{
+	position: absolute;
+	top: 0;
+}
+
+
+
+.wave{
+   
+}
+
+
+
+
+
+
+
+
+@media (max-width: 600px) {
+	#board{
+	width:100%;
+	height: 100%;
+	background-color:#bea757;
+    position: fixed;
+    float: right;
+    right:0;
+    z-index: 100;
+}
+#logo{
+	width: auto;
+	height: 20%;
+	position: absolute;
+	right: 15px;
+	float: right;
+}
+#instruction{
+	width: 100%;
+	height: 60%;
+    position: absolute;
+	right: 30px;
+	top: 33%;
+    float: right;
+
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.4rem;
+	
+	font-family: "黑体";
+	color: #444e55;
+	display: none;
+}
+
+#titles{
+	width: 50%;
+	height: 100%;
+	position:relative;
+	float: right;
+	top: 0%;
+	padding: 15px;
+	right: 20%;
+	display: none;
+}
+
+#sort{
+	display: none;
+}
+
+#shaixuan{
+	display: none;
+}
+
+#operation{
+	display: none;
+}
+
+#pretitle{
+	display: none;
+}
+
+#explain{
+	width: 30px;
+	height: 200px;
+	position: absolute;
+	float: right;
+	top:50%;
+	right: 50%;
+	margin-left: 0px;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	letter-spacing:0px;
+	font-size: 1.8rem;
+	font-weight: bold;
+	font-family: "黑体";
+	color: #444e55;
+	display: block;
+}
+
+
+}
